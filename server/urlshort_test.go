@@ -5,6 +5,7 @@ import (
 	"github.com/stretchr/testify/assert"
 	"net/http"
 	"net/http/httptest"
+	"strings"
 	"testing"
 )
 
@@ -40,4 +41,22 @@ func TestMapHandler(t *testing.T) {
 		server.MapHandler(redirects, fallback).ServeHTTP(res, req)
 		assert.True(t, fallback.calledServeHttp)
 	})
+}
+
+const yaml = `
+- path: /urlshort
+  url: https://github.com/gophercises/urlshort
+- path: /urlshort-final
+  url: https://github.com/gophercises/urlshort/tree/solution
+
+`
+
+func TestYamlHandler(t *testing.T) {
+	url := "/urlshort"
+	req, _ := http.NewRequest(http.MethodGet, url, nil)
+	res := httptest.NewRecorder()
+
+	server.YamlHandler(strings.NewReader(yaml), &SpyHandler{}).ServeHTTP(res, req)
+	assert.Equal(t, res.Code, http.StatusMovedPermanently)
+	assert.Equal(t, res.Header().Get("Location"), "https://github.com/gophercises/urlshort")
 }
