@@ -7,8 +7,8 @@ func MapHandler(pathsToUrls map[string]string, fallback http.Handler) http.Handl
 		reqUrl := request.URL.Path
 		val, exists := pathsToUrls[reqUrl]
 		if exists {
-			writer.WriteHeader(http.StatusMovedPermanently)
 			writer.Header().Set("Location", val)
+			writer.WriteHeader(http.StatusMovedPermanently)
 		} else {
 			fallback.ServeHTTP(writer, request)
 		}
