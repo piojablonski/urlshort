@@ -17,7 +17,7 @@ type SpyHandler struct {
 	calledServeHttp bool
 }
 
-func (s *SpyHandler) ServeHTTP(writer http.ResponseWriter, request *http.Request) {
+func (s *SpyHandler) ServeHTTP(_ http.ResponseWriter, _ *http.Request) {
 	s.calledServeHttp = true
 }
 
