@@ -13,8 +13,8 @@ type Server struct {
 	fallback http.Handler
 }
 
-func New(store Store, fallback http.Handler) Server {
-	return Server{store, fallback}
+func New(store Store, fallback http.Handler) *Server {
+	return &Server{store, fallback}
 }
 
 func (s *Server) ServeHTTP(writer http.ResponseWriter, request *http.Request) {
