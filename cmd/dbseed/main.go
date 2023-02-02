@@ -13,7 +13,6 @@ var redirects = map[string]string{
 }
 
 func main() {
-
 	fmt.Println("redis tutorial")
 
 	client := redis.NewClient(&redis.Options{
